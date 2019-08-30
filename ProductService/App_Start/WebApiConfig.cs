@@ -20,6 +20,11 @@ namespace ProductService
                 .Action("Rate")
                 .Parameter<int>("Rating");
 
+            builder.EntityType<Product>()
+                .Collection
+                .Function("MostExpensive")
+                .Returns<double>();
+
             config.MapODataServiceRoute(
                 routeName: "ODataRoute",
                 routePrefix: null,
