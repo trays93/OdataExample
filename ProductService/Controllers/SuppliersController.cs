@@ -126,5 +126,11 @@ namespace ProductService.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        [EnableQuery]
+        public IQueryable<Product> GetProducts([FromODataUri] int key)
+        {
+            return db.Suppliers.Where(m => m.ID.Equals(key)).SelectMany(m => m.Products);
+        }
     }
 }

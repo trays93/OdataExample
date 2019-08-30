@@ -126,5 +126,12 @@ namespace ProductService.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        [EnableQuery]
+        public SingleResult<Supplier> GetSupplier([FromODataUri] int key)
+        {
+            var result = db.Products.Where(m => m.ID == key).Select(m => m.Supplier);
+            return SingleResult.Create(result);
+        }
     }
 }
