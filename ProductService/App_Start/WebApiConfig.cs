@@ -10,7 +10,10 @@ namespace ProductService
         public static void Register(HttpConfiguration config)
         {
             ODataModelBuilder builder = new ODataConventionModelBuilder();
+
             builder.EntitySet<Product>("Products");
+            builder.EntitySet<Supplier>("Suppliers");
+
             config.MapODataServiceRoute(
                 routeName: "ODataRoute",
                 routePrefix: null,
