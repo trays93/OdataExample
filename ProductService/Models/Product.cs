@@ -1,4 +1,6 @@
-﻿namespace ProductService.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProductService.Models
 {
     public class Product
     {
@@ -6,5 +8,9 @@
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Category { get; set; }
+
+        [ForeignKey("Supplier")]
+        public int? SupplierID { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }
