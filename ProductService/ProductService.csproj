@@ -139,6 +139,10 @@
     <Compile Include="Migrations\201908261906473_AddProductClass.Designer.cs">
       <DependentUpon>201908261906473_AddProductClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908302034054_AddSupplierClass.cs" />
+    <Compile Include="Migrations\201908302034054_AddSupplierClass.Designer.cs">
+      <DependentUpon>201908302034054_AddSupplierClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductsContext.cs" />
@@ -160,6 +164,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908261906473_AddProductClass.resx">
       <DependentUpon>201908261906473_AddProductClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908302034054_AddSupplierClass.resx">
+      <DependentUpon>201908302034054_AddSupplierClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
