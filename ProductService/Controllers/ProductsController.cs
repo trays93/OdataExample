@@ -222,5 +222,12 @@ namespace ProductService.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        [HttpGet]
+        public IHttpActionResult MostExpensive()
+        {
+            var product = db.Products.Max(x => x.Price);
+            return Ok(product);
+        }
     }
 }
