@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.OData;
 using ProductService.Models;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -131,6 +132,36 @@ namespace ProductService.Controllers
         public IQueryable<Product> GetProducts([FromODataUri] int key)
         {
             return db.Suppliers.Where(m => m.ID.Equals(key)).SelectMany(m => m.Products);
+        }
+
+        public async Task<IHttpActionResult> DeleteRef([FromODataUri] int key,
+            [FromODataUri] string relatedKey, string navigationProperty)
+        {
+            var supplier = await db.Suppliers.SingleOrDefaultAsync(p => p.ID == key);
+            if (supplier == null)
+            {
+                return StatusCode(HttpStatusCode.NotFound);
+            }
+
+            switch(navigationProperty)
+            {
+                case "Products":
+                    var productId = Convert.ToInt32(relatedKey);
+                    var product = await db.Products.SingleOrDefaultAsync(p => p.ID == productId);
+
+                    if (product == null)
+                    {
+                        return NotFound();
+                    }
+
+                    product.Supplier = null;
+                    break;
+                default:
+                    return StatusCode(HttpStatusCode.NotImplemented);
+            }
+
+            await db.SaveChangesAsync();
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
