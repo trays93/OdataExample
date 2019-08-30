@@ -25,6 +25,10 @@ namespace ProductService
                 .Function("MostExpensive")
                 .Returns<double>();
 
+            builder.Function("GetSalesTaxRate")
+                .Returns<double>()
+                .Parameter<int>("PostalCode");
+
             config.MapODataServiceRoute(
                 routeName: "ODataRoute",
                 routePrefix: null,
