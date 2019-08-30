@@ -29,6 +29,8 @@ namespace ProductService
                 .Returns<double>()
                 .Parameter<int>("PostalCode");
 
+            config.Count().Filter().OrderBy().Expand().Select();
+
             config.MapODataServiceRoute(
                 routeName: "ODataRoute",
                 routePrefix: null,
