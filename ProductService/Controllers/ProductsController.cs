@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.OData;
 using ProductService.Models;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -132,6 +133,36 @@ namespace ProductService.Controllers
         {
             var result = db.Products.Where(m => m.ID == key).Select(m => m.Supplier);
             return SingleResult.Create(result);
+        }
+
+        [AcceptVerbs("POST", "PUT")]
+        public async Task<IHttpActionResult> CreateRef([FromODataUri] int key,
+            string navigationProperty, [FromBody] Uri link)
+        {
+            var product = await db.Products.SingleOrDefaultAsync(p => p.ID == key);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            switch (navigationProperty)
+            {
+                case "Supplier":
+                    var relatedKey = Helpers.GetKeyFromUri<int>(Request, link);
+                    var supplier = await db.Suppliers.SingleOrDefaultAsync(f => f.ID == relatedKey);
+                    if (supplier == null)
+                    {
+                        return NotFound();
+                    }
+
+                    product.Supplier = supplier;
+                    break;
+                default:
+                    return StatusCode(HttpStatusCode.NotImplemented);
+            }
+
+            await db.SaveChangesAsync();
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
