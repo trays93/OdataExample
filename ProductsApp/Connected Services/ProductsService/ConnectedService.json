@@ -1,0 +1,42 @@
+﻿{
+  "ProviderId": "Unchase.OData.ConnectedService",
+  "Version": "1.1.0.0",
+  "GettingStartedDocument": {
+    "Uri": "http://odata.github.io/odata.net/"
+  },
+  "ExtendedData": {
+    "EnableNamingAlias": false,
+    "IgnoreUnexpectedElementsAndAttributes": false,
+    "IncludeT4File": false,
+    "FunctionImportsGenerator": 0,
+    "IncludeExtensionsT4File": false,
+    "GenerateFunctionImports": false,
+    "ServiceName": "ProductsService",
+    "Endpoint": "https://localhost:44387/$metadata",
+    "EdmxVersion": {
+      "Major": 4,
+      "Minor": 0,
+      "Build": 0,
+      "Revision": 0,
+      "MajorRevision": 0,
+      "MinorRevision": 0
+    },
+    "GeneratedFileNamePrefix": "Reference",
+    "UseNameSpacePrefix": false,
+    "NamespacePrefix": null,
+    "UseDataServiceCollection": true,
+    "OpenGeneratedFilesOnComplete": false,
+    "LanguageOption": 0,
+    "FunctionImports": null,
+    "UseNetworkCredentials": false,
+    "NetworkCredentialsUserName": null,
+    "NetworkCredentialsPassword": null,
+    "NetworkCredentialsDomain": null,
+    "WebProxyUri": null,
+    "UseWebProxy": false,
+    "UseWebProxyCredentials": false,
+    "WebProxyNetworkCredentialsUserName": null,
+    "WebProxyNetworkCredentialsPassword": null,
+    "WebProxyNetworkCredentialsDomain": null
+  }
+}
