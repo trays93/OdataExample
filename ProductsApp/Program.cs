@@ -10,6 +10,12 @@ namespace ProductsApp
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("***** ProductsApp kliens *****");
+
+            // TODO: alkalmazás logika
+
+            Console.WriteLine("Nyomj entert a folytatáshoz");
+            Console.ReadLine();
         }
     }
 }
