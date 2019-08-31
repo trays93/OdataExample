@@ -11,6 +11,6 @@
 
 ## Hasznos linkek
 
-[OData hivatalos honlap(https://www.odata.org/)]
-[OData dokumentáció(https://docs.microsoft.com/hu-hu/odata/)]
-[OData v4 tutorial(https://docs.microsoft.com/en-us/aspnet/web-api/overview/odata-support-in-aspnet-web-api/odata-v4/)]
+[OData hivatalos honlap](https://www.odata.org/)
+[OData dokumentáció](https://docs.microsoft.com/hu-hu/odata/)
+[OData v4 tutorial](https://docs.microsoft.com/en-us/aspnet/web-api/overview/odata-support-in-aspnet-web-api/odata-v4/)
