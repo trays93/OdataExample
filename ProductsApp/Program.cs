@@ -17,7 +17,11 @@ namespace ProductsApp
 
             ListSuppliers(uri);
             ListProducts(uri);
-            
+
+            var product = AddProduct(uri);
+
+            ListProducts(uri);
+
             Console.WriteLine("Nyomj entert a folytatáshoz");
             Console.ReadLine();
         }
@@ -58,6 +62,25 @@ namespace ProductsApp
                 }
             }
             Console.WriteLine();
+        }
+
+        public static Product AddProduct(Uri uri)
+        {
+            var container = new Container(uri);
+
+            var product = new Product()
+            {
+                Name = "Próba termék",
+                Price = 7.23M,
+                Category = "Próba kategória",
+                SupplierID = 1
+            };
+
+            container.AddToProducts(product);
+            container.SaveChanges();
+            Console.WriteLine($"Termék hozzáadva: {product.Name}");
+
+            return product;
         }
     }
 }
