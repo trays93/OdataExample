@@ -22,6 +22,10 @@ namespace ProductsApp
 
             ListProducts(uri);
 
+            product = UpdateProduct(uri, product);
+
+            ListProducts(uri);
+
             Console.WriteLine("Nyomj entert a folytatáshoz");
             Console.ReadLine();
         }
@@ -81,6 +85,20 @@ namespace ProductsApp
             Console.WriteLine($"Termék hozzáadva: {product.Name}");
 
             return product;
+        }
+
+        private static Product UpdateProduct(Uri uri, Product product)
+        {
+            var container = new Container(uri);
+            var updateProduct = container.Products.ByKey(product.ID).GetValue();
+            updateProduct.Name = "Lorem ipsum";
+            updateProduct.Category = "Kategória #2";
+
+            container.UpdateObject(updateProduct);
+            container.SaveChanges();
+            Console.WriteLine($"Termék frissítve: {updateProduct.Name}");
+
+            return updateProduct;
         }
     }
 }
