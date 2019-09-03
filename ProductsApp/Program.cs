@@ -26,6 +26,10 @@ namespace ProductsApp
 
             ListProducts(uri);
 
+            DeleteProduct(uri, product);
+
+            ListProducts(uri);
+
             Console.WriteLine("Nyomj entert a folytatáshoz");
             Console.ReadLine();
         }
@@ -99,6 +103,17 @@ namespace ProductsApp
             Console.WriteLine($"Termék frissítve: {updateProduct.Name}");
 
             return updateProduct;
+        }
+
+        private static void DeleteProduct(Uri uri, Product product)
+        {
+            var container = new Container(uri);
+            var deleteProduct = container.Products.ByKey(product.ID).GetValue();
+
+            container.DeleteObject(deleteProduct);
+            container.SaveChanges();
+
+            Console.WriteLine($"Termék törölve: {deleteProduct.Name}");
         }
     }
 }
