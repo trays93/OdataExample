@@ -13,30 +13,30 @@ namespace ProductsApp
         {
             Console.WriteLine("***** ProductsApp kliens *****");
 
-            Uri uri = new Uri("https://localhost:44387/");
+            ConnectionHelper.Uri = new Uri("https://localhost:44387/");
 
-            ListSuppliers(uri);
-            ListProducts(uri);
+            ListSuppliers();
+            ListProducts();
 
-            var product = AddProduct(uri);
+            var product = AddProduct();
 
-            ListProducts(uri);
+            ListProducts();
 
-            product = UpdateProduct(uri, product);
+            product = UpdateProduct(product);
 
-            ListProducts(uri);
+            ListProducts();
 
-            DeleteProduct(uri, product);
+            DeleteProduct(product);
 
-            ListProducts(uri);
+            ListProducts();
 
             Console.WriteLine("Nyomj entert a folytatáshoz");
             Console.ReadLine();
         }
 
-        private static void ListSuppliers(Uri uri)
+        private static void ListSuppliers()
         {
-            var container = new Container(uri);
+            var container = ConnectionHelper.Container;
             var suppliers = container.Suppliers.Expand("Products").Execute();
             Console.WriteLine("\nBeszállítók:");
             foreach (var supplier in suppliers)
@@ -53,9 +53,9 @@ namespace ProductsApp
             Console.WriteLine();
         }
 
-        private static void ListProducts(Uri uri)
+        private static void ListProducts()
         {
-            var container = new Container(uri);
+            var container = ConnectionHelper.Container;
             var products = container.Products.Expand("Supplier").Execute();
             Console.WriteLine("\nTermékek:");
             foreach (var product in products)
@@ -72,9 +72,9 @@ namespace ProductsApp
             Console.WriteLine();
         }
 
-        public static Product AddProduct(Uri uri)
+        public static Product AddProduct()
         {
-            var container = new Container(uri);
+            var container = ConnectionHelper.Container;
 
             var product = new Product()
             {
@@ -91,9 +91,9 @@ namespace ProductsApp
             return product;
         }
 
-        private static Product UpdateProduct(Uri uri, Product product)
+        private static Product UpdateProduct(Product product)
         {
-            var container = new Container(uri);
+            var container = ConnectionHelper.Container;
             var updateProduct = container.Products.ByKey(product.ID).GetValue();
             updateProduct.Name = "Lorem ipsum";
             updateProduct.Category = "Kategória #2";
@@ -105,15 +105,37 @@ namespace ProductsApp
             return updateProduct;
         }
 
-        private static void DeleteProduct(Uri uri, Product product)
+        private static void DeleteProduct(Product product)
         {
-            var container = new Container(uri);
+            var container = ConnectionHelper.Container;
             var deleteProduct = container.Products.ByKey(product.ID).GetValue();
 
             container.DeleteObject(deleteProduct);
             container.SaveChanges();
 
             Console.WriteLine($"Termék törölve: {deleteProduct.Name}");
+        }
+    }
+
+    public static class ConnectionHelper
+    {
+        public static Uri Uri { get; set; }
+
+        public static Container Container
+        {
+            get
+            {
+                var container = new Container(Uri);
+                container.SendingRequest2 += Container_SendingRequest2;
+                return container;
+            }
+        }
+
+        private static void Container_SendingRequest2(object sender, Microsoft.OData.Client.SendingRequest2EventArgs e)
+        {
+            string userName = "admin", password = "admin";
+            string token = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", userName, password)));
+            e.RequestMessage.SetHeader("Authorization", $"Basic {token}");
         }
     }
 }
