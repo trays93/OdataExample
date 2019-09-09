@@ -37,3 +37,52 @@ namespace ProductService
         }
     }
 }
+
+namespace BasicAuthentication
+{
+    using System.Text;
+    using System.Net;
+    using System.Web.Http.Controllers;
+    using System.Web.Http.Filters;
+    using System.Threading;
+    using System.Security.Principal;
+
+    class BasicAuthenticationAttribute : AuthorizationFilterAttribute
+    {
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            //base.OnAuthorization(actionContext);
+            if (actionContext.Request.Headers.Authorization != null)
+            {
+                var authToken = actionContext.Request.Headers.Authorization.Parameter;
+
+                var decodedAuthToken = Encoding.UTF8.GetString(
+                    Convert.FromBase64String(authToken));
+
+                string userName = decodedAuthToken.Split(':')[0];
+                string password = decodedAuthToken.Split(':')[1];
+
+                if (IsAuthorizedUser(userName, password))
+                {
+                    Thread.CurrentPrincipal = new GenericPrincipal(
+                        new GenericIdentity(userName), null);
+                }
+                else
+                {
+                    actionContext.Response = actionContext.Request
+                        .CreateResponse(HttpStatusCode.Unauthorized);
+                }
+            }
+            else
+            {
+                actionContext.Response = actionContext.Request
+                    .CreateResponse(HttpStatusCode.Unauthorized);
+            }
+        }
+
+        private bool IsAuthorizedUser(string userName, string password)
+        {
+            return userName == "admin" && password == "admin";
+        }
+    }
+}
