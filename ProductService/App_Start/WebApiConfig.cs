@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.OData.Builder;
+﻿using BasicAuthentication;
+using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using ProductService.Models;
 using System.Web.Http;
@@ -35,6 +36,8 @@ namespace ProductService
                 routeName: "ODataRoute",
                 routePrefix: null,
                 model: builder.GetEdmModel());
+
+            config.Filters.Add(new BasicAuthenticationAttribute());
         }
     }
 }
